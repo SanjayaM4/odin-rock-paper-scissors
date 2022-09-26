@@ -34,29 +34,50 @@ function playRound(playerSelection, computerSelection){
     || (computerSelection === "paper" && playerSelection === "paper")
     || (computerSelection === "scissors" && playerSelection === "scissors"))
     {
-        return `It's a draw, you both chose ${playerSelection}`
+        console.log(`It's a draw, you both chose ${playerSelection}`);
+        return 0;
     }
     else if ((computerSelection === "rock" && playerSelection === "paper")
     || (computerSelection === "paper" && playerSelection === "scissors")
     || (computerSelection === "scissors" && playerSelection === "rock"))
     {
-        return `You win! Your ${playerSelection} beats the Opponent's ${computerSelection}`
+        console.log(`You win! Your ${playerSelection} beats the Opponent's ${computerSelection}`);
+        return 1;
     }
     else if ((computerSelection === "rock" && playerSelection === "scissors")
     || (computerSelection === "paper" && playerSelection === "rock")
     || (computerSelection === "scissors" && playerSelection === "paper"))
     {
-        return `You lose! Your opponent's ${computerSelection} beats your ${playerSelection}`
+        console.log(`You lose! Your opponent's ${computerSelection} beats your ${playerSelection}`);
+        return -1;
     }
     else if ((playerSelection === "error") 
     || (playerSelection !== "rock") 
     || (playerSelection !== "paper") 
     || (playerSelection !== "scissors"))
     {
-        return "Please enter a valid choice."
+        console.log("Please enter a valid choice.");
+        return 0;
     }
     else
-        return "An unforeseen error occurred."
+        console.log("An unforeseen error occurred.");
+        return 0;
 }
 
-console.log(playRound(getPlayerChoice(), getComputerChoice()));
+
+function game(){
+
+    let score = 0;
+
+    for (let i = 0; i < 5; i++)
+        score += playRound(getPlayerChoice(), getComputerChoice());
+
+    if (score > 0)
+        console.log("You Win!");
+    else if (score < 0)
+        console.log("You Lose!");
+    else 
+        console.log("It's a Draw!");
+}
+
+game();
