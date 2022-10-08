@@ -29,7 +29,7 @@ function getPlayerChoice(){
         return "error";
 }
 
-function playRound(playerSelection, computerSelection){
+/*function playRound(playerSelection, computerSelection){
     if ((computerSelection === "rock" && playerSelection === "rock")
     || (computerSelection === "paper" && playerSelection === "paper")
     || (computerSelection === "scissors" && playerSelection === "scissors"))
@@ -78,6 +78,56 @@ function game(){
         console.log("You Lose!");
     else 
         console.log("It's a Draw!");
+}*/
+
+function playRound(e){
+
+
+    const container = document.querySelector("#result");
+    
+    console.log(e.target.id);
+
+    const playerSelection = e.target.id;
+    const computerSelection = getComputerChoice();
+
+    
+    if ((computerSelection === "rock" && playerSelection === "rock")
+    || (computerSelection === "paper" && playerSelection === "paper")
+    || (computerSelection === "scissors" && playerSelection === "scissors"))
+    {
+        container.textContent = `It's a draw, you both chose ${playerSelection}`;
+        return 0;
+    }
+    else if ((computerSelection === "rock" && playerSelection === "paper")
+    || (computerSelection === "paper" && playerSelection === "scissors")
+    || (computerSelection === "scissors" && playerSelection === "rock"))
+    {
+        container.textContent = `You win! Your ${playerSelection} beats the Opponent's ${computerSelection}`;
+        return 1;
+    }
+    else if ((computerSelection === "rock" && playerSelection === "scissors")
+    || (computerSelection === "paper" && playerSelection === "rock")
+    || (computerSelection === "scissors" && playerSelection === "paper"))
+    {
+        container.textContent = `You lose! Your opponent's ${computerSelection} beats your ${playerSelection}`;
+        return -1;
+    }
+    else if ((playerSelection === "error") 
+    || (playerSelection !== "rock") 
+    || (playerSelection !== "paper") 
+    || (playerSelection !== "scissors"))
+    {
+        container.textContent = "Please enter a valid choice.";
+        return 0;
+    }
+    else
+        container.textContent = "An unforeseen error occurred.";
+        return 0;
 }
 
-game();
+const choices = Array.from(document.getElementsByClassName("choice"));
+choices.forEach(choice => choice.addEventListener('click', playRound));
+
+
+
+//window.addEventListener('click', playRound);
