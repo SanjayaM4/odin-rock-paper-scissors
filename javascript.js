@@ -29,63 +29,11 @@ function getPlayerChoice(){
         return "error";
 }
 
-/*function playRound(playerSelection, computerSelection){
-    if ((computerSelection === "rock" && playerSelection === "rock")
-    || (computerSelection === "paper" && playerSelection === "paper")
-    || (computerSelection === "scissors" && playerSelection === "scissors"))
-    {
-        console.log(`It's a draw, you both chose ${playerSelection}`);
-        return 0;
-    }
-    else if ((computerSelection === "rock" && playerSelection === "paper")
-    || (computerSelection === "paper" && playerSelection === "scissors")
-    || (computerSelection === "scissors" && playerSelection === "rock"))
-    {
-        console.log(`You win! Your ${playerSelection} beats the Opponent's ${computerSelection}`);
-        return 1;
-    }
-    else if ((computerSelection === "rock" && playerSelection === "scissors")
-    || (computerSelection === "paper" && playerSelection === "rock")
-    || (computerSelection === "scissors" && playerSelection === "paper"))
-    {
-        console.log(`You lose! Your opponent's ${computerSelection} beats your ${playerSelection}`);
-        return -1;
-    }
-    else if ((playerSelection === "error") 
-    || (playerSelection !== "rock") 
-    || (playerSelection !== "paper") 
-    || (playerSelection !== "scissors"))
-    {
-        console.log("Please enter a valid choice.");
-        return 0;
-    }
-    else
-        console.log("An unforeseen error occurred.");
-        return 0;
-}
-
-
-function game(){
-
-    let score = 0;
-
-    for (let i = 0; i < 5; i++)
-        score += playRound(getPlayerChoice(), getComputerChoice());
-
-    if (score > 0)
-        console.log("You Win!");
-    else if (score < 0)
-        console.log("You Lose!");
-    else 
-        console.log("It's a Draw!");
-}*/
-
 function playRound(e){
 
+    document.querySelector("#finalResult").textContent = "";
 
-    const container = document.querySelector("#result");
-    
-    console.log(e.target.id);
+    const container = document.querySelector("#roundResult");
 
     const playerSelection = e.target.id;
     const computerSelection = getComputerChoice();
@@ -96,21 +44,23 @@ function playRound(e){
     || (computerSelection === "scissors" && playerSelection === "scissors"))
     {
         container.textContent = `It's a draw, you both chose ${playerSelection}`;
-        return 0;
+        return;
     }
     else if ((computerSelection === "rock" && playerSelection === "paper")
     || (computerSelection === "paper" && playerSelection === "scissors")
     || (computerSelection === "scissors" && playerSelection === "rock"))
     {
         container.textContent = `You win! Your ${playerSelection} beats the Opponent's ${computerSelection}`;
-        return 1;
+        updatePlayerScore();
+        return;
     }
     else if ((computerSelection === "rock" && playerSelection === "scissors")
     || (computerSelection === "paper" && playerSelection === "rock")
     || (computerSelection === "scissors" && playerSelection === "paper"))
     {
         container.textContent = `You lose! Your opponent's ${computerSelection} beats your ${playerSelection}`;
-        return -1;
+        updateComputerScore();
+        return;
     }
     else if ((playerSelection === "error") 
     || (playerSelection !== "rock") 
@@ -118,16 +68,66 @@ function playRound(e){
     || (playerSelection !== "scissors"))
     {
         container.textContent = "Please enter a valid choice.";
-        return 0;
+        return;
     }
     else
         container.textContent = "An unforeseen error occurred.";
-        return 0;
+        return;
 }
+
+
+function updatePlayerScore(){
+
+    playerScore++;
+
+    const container = document.querySelector("#playerScore");
+
+    container.textContent = playerScore;
+
+    if (playerScore >= 5)
+    {
+        gameEnd();
+    }
+
+}
+
+function updateComputerScore(){
+
+    computerScore++;
+
+    const container = document.querySelector("#computerScore");
+
+    container.textContent = computerScore;
+
+    if (computerScore >= 5)
+    {
+        gameEnd();
+    }
+
+}
+
+function gameEnd(){
+
+    const result = document.querySelector("#finalResult");
+
+    if (playerScore > computerScore)
+    {
+        result.textContent = "You Won the Game";
+    }
+    else
+    {
+        result.textContent = "You Lost the Game";
+    }
+
+    playerScore = 0;
+    computerScore = 0;
+
+    document.querySelector("#playerScore").textContent = 0;
+    document.querySelector("#computerScore").textContent = 0;
+}
+
+let playerScore = 0;
+let computerScore = 0;
 
 const choices = Array.from(document.getElementsByClassName("choice"));
 choices.forEach(choice => choice.addEventListener('click', playRound));
-
-
-
-//window.addEventListener('click', playRound);
